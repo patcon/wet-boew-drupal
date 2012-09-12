@@ -1,0 +1,18 @@
+diff --git a/modules/file/file.field.inc b/modules/file/file.field.inc
+index 1189704..01526f9 100644
+--- a/modules/file/file.field.inc
++++ b/modules/file/file.field.inc
+@@ -260,7 +260,12 @@ function file_field_update($entity_type, $entity, $field, $instance, $langcode,
+   foreach ($items as $item) {
+     $current_fids[] = $item['fid'];
+   }
+-
++  
++  // Load the original entity, if $entity->original is not already set.
++  if (empty($entity->original)) {
++    $entity->original = entity_load_unchanged($entity_type, $id);
++  }
++  
+   // Compare the original field values with the ones that are being saved.
+   $original = $entity->original;
+   $original_fids = array();
